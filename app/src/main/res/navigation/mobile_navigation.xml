@@ -3,33 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/inicio">
 
-    <fragment
-        android:id="@+id/navigation_home"
-        android:name="santa.barbara.appdsm.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
 
-    <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="santa.barbara.appdsm.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="santa.barbara.appdsm.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/inicio"
         android:name="santa.barbara.appdsm.Inicio"
-        android:label="fragment_inicio"
+        android:label="inicio"
         tools:layout="@layout/fragment_inicio" />
     <fragment
         android:id="@+id/doctores"
         android:name="santa.barbara.appdsm.doctores"
-        android:label="fragment_doctores"
+        android:label="doctores"
         tools:layout="@layout/fragment_doctores" />
+    <fragment
+        android:id="@+id/pacientes"
+        android:name="santa.barbara.appdsm.pacientes"
+        android:label="fragment_pacientes"
+        tools:layout="@layout/fragment_pacientes" />
+    <fragment
+        android:id="@+id/citas"
+        android:name="santa.barbara.appdsm.citas"
+        android:label="citas"
+        tools:layout="@layout/fragment_citas" />
 </navigation>

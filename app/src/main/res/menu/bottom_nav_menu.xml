@@ -2,18 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
+        android:id="@+id/inicio"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
+        android:title="Inicio" />
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/doctores"
         android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
+        android:title="Doctores" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/pacientes"
         android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_notifications" />
+        android:title="Pacientes" />
+    <item
+        android:id="@+id/citas"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="Citas" />
 
 </menu>

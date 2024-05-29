@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "692205626450",
+    "project_id": "appdsm-42d14",
+    "storage_bucket": "appdsm-42d14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:692205626450:android:b11fd165ea74be4ce72b8b",
+        "android_client_info": {
+          "package_name": "santa.barbara.appdsm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmTRD1PsQKX5__b8dtgcryKqmfbBXF8d4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
