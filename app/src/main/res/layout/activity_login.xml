@@ -5,12 +5,14 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FEFEFE"
     tools:context=".login">
 
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:fitsSystemWindows="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +37,7 @@
                 android:id="@+id/textView"
                 android:layout_width="252dp"
                 android:layout_height="89dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="32dp"
                 android:fontFamily="@font/archivo_semibold"
                 android:text="Veterinaria Santa Bárbara"
                 android:textAlignment="center"
@@ -56,6 +58,7 @@
                 android:textColor="#595959"
                 android:textSize="28sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
@@ -112,7 +115,7 @@
                     android:ems="10"
                     android:inputType="text"
                     android:paddingLeft="10dp"
-                    app:layout_constraintBottom_toTopOf="@+id/button3"
+                    app:layout_constraintBottom_toTopOf="@+id/btnIngresar"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -131,7 +134,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/editTextText" />
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/btnIngresar"
                     android:layout_width="115dp"
                     android:layout_height="45dp"
                     android:layout_marginBottom="24dp"
@@ -151,13 +154,13 @@
                     android:layout_marginBottom="20dp"
                     android:text="¿No tienes una cuenta?"
                     android:textColor="#FFFFFF"
-                    app:layout_constraintBottom_toTopOf="@+id/button4"
+                    app:layout_constraintBottom_toTopOf="@+id/btnRegistrarme"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <Button
-                    android:id="@+id/button4"
+                    android:id="@+id/btnRegistrarme"
                     android:layout_width="124dp"
                     android:layout_height="45dp"
                     android:layout_marginBottom="28dp"

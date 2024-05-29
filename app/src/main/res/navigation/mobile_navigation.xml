@@ -22,4 +22,14 @@
         android:name="santa.barbara.appdsm.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/inicio"
+        android:name="santa.barbara.appdsm.Inicio"
+        android:label="fragment_inicio"
+        tools:layout="@layout/fragment_inicio" />
+    <fragment
+        android:id="@+id/doctores"
+        android:name="santa.barbara.appdsm.doctores"
+        android:label="fragment_doctores"
+        tools:layout="@layout/fragment_doctores" />
 </navigation>
