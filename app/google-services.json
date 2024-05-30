@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "692205626450",
+    "firebase_url": "https://appdsm-42d14-default-rtdb.firebaseio.com",
     "project_id": "appdsm-42d14",
     "storage_bucket": "appdsm-42d14.appspot.com"
   },
@@ -12,7 +13,20 @@
           "package_name": "santa.barbara.appdsm"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "692205626450-4vhl8bcoeldbvmrdo636jvjtafo0npf9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "santa.barbara.appdsm",
+            "certificate_hash": "5ef59b727757290d6dd5542dc7befea081e48961"
+          }
+        },
+        {
+          "client_id": "692205626450-9oc6luhu6k0et4l5tldmlcgmlfdooibc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAmTRD1PsQKX5__b8dtgcryKqmfbBXF8d4"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "692205626450-9oc6luhu6k0et4l5tldmlcgmlfdooibc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
