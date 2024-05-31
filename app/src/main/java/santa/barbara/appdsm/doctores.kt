@@ -35,6 +35,7 @@ class doctores : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    val datos = mutableListOf<tbDoctores>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +63,6 @@ class doctores : Fragment() {
 
         /////TODO: funcion de obtenerDatos
         fun obtenerDatos(): List<tbDoctores>{
-            val datos = mutableListOf<tbDoctores>()
             referencia.addValueEventListener(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     datos.clear()
@@ -74,6 +74,8 @@ class doctores : Fragment() {
                         val doctorNuevo = tbDoctores(nombre.toString(), especialidad.toString(), telefono.toString())
                         datos.add(doctorNuevo)
                     }
+                    val adapter = AdaptadorDoctores(datos)
+                    rcvDoctores.adapter = adapter
                 }
                 override fun onCancelled(error: DatabaseError) {
                     println("Error: $error")
@@ -82,19 +84,12 @@ class doctores : Fragment() {
             })
             return datos
         }
-        //Asigno un adaptador al RecyclerView
-        //El adaptador se encarga de actualizar los datos en la lista
-        CoroutineScope(Dispatchers.IO).launch {
-            val doctoresDB = obtenerDatos()
-            withContext(Dispatchers.Main) {
-                val adapter = AdaptadorDoctores(doctoresDB)
-                rcvDoctores.adapter = adapter
-            }
-        }
 
+        obtenerDatos()
         btnAgregarDoctor.setOnClickListener {
             findNavController().navigate(R.id.action_doctores_to_add_doctor)
         }
+
 
         return root
     }
