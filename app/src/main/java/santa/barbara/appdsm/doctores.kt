@@ -5,6 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import santa.barbara.appdsm.doctoresHelper.AdaptadorDoctores
+import santa.barbara.appdsm.doctoresHelper.tbDoctores
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,8 +48,55 @@ class doctores : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_doctores, container, false)
+
+        val root = inflater.inflate(R.layout.fragment_doctores, container, false)
+
+        val btnAgregarDoctor = root.findViewById<FloatingActionButton>(R.id.btnAgregarDoctor)
+        val rcvDoctores = root.findViewById<RecyclerView>(R.id.rcvDoctores)
+        rcvDoctores.layoutManager = LinearLayoutManager(requireContext())
+
+        //Preparación de la base de datos
+        var key: String? = null
+        val database = FirebaseDatabase.getInstance()
+        val referencia = database.getReference("doctores")
+
+        /////TODO: funcion de obtenerDatos
+        fun obtenerDatos(): List<tbDoctores>{
+            val datos = mutableListOf<tbDoctores>()
+            referencia.addValueEventListener(object: ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    datos.clear()
+                    for(dataSnapshot in snapshot.children){
+                        key = dataSnapshot.key
+                        val nombre = dataSnapshot.child("nombre").value
+                        val especialidad = dataSnapshot.child("especialidad").value
+                        val telefono = dataSnapshot.child("telefono").value
+                        val doctorNuevo = tbDoctores(nombre.toString(), especialidad.toString(), telefono.toString())
+                        datos.add(doctorNuevo)
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    println("Error: $error")
+                }
+
+            })
+            return datos
+        }
+        //Asigno un adaptador al RecyclerView
+        //El adaptador se encarga de actualizar los datos en la lista
+        CoroutineScope(Dispatchers.IO).launch {
+            val doctoresDB = obtenerDatos()
+            withContext(Dispatchers.Main) {
+                val adapter = AdaptadorDoctores(doctoresDB)
+                rcvDoctores.adapter = adapter
+            }
+        }
+
+        btnAgregarDoctor.setOnClickListener {
+            findNavController().navigate(R.id.action_doctores_to_add_doctor)
+        }
+
+        return root
     }
 
     companion object {

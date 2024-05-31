@@ -15,7 +15,12 @@
         android:id="@+id/doctores"
         android:name="santa.barbara.appdsm.doctores"
         android:label="doctores"
-        tools:layout="@layout/fragment_doctores" />
+
+        tools:layout="@layout/fragment_doctores" >
+    <action
+        android:id="@+id/action_doctores_to_add_doctor"
+        app:destination="@id/agregar_doctores" />
+    </fragment>
     <fragment
         android:id="@+id/pacientes"
         android:name="santa.barbara.appdsm.pacientes"
@@ -26,4 +31,9 @@
         android:name="santa.barbara.appdsm.citas"
         android:label="citas"
         tools:layout="@layout/fragment_citas" />
+    <fragment
+        android:id="@+id/agregar_doctores"
+        android:name="santa.barbara.appdsm.agregar_doctores"
+        android:label="fragment_agregar_doctores"
+        tools:layout="@layout/fragment_agregar_doctores" />
 </navigation>

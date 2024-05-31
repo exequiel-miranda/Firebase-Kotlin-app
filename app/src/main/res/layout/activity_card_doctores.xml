@@ -16,14 +16,14 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/lblCitaCard"
+            android:id="@+id/lblDoctorCard"
             android:layout_width="230dp"
             android:layout_height="match_parent"
-            android:text="Cita"
+            android:text="Doctor"
             android:textSize="34sp" />
 
         <ImageView
-            android:id="@+id/imgEditarCitas"
+            android:id="@+id/imgEditarDoctor"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
@@ -32,7 +32,7 @@
             app:srcCompat="@drawable/ic_editar" />
 
         <ImageView
-            android:id="@+id/imgBorrarCitas"
+            android:id="@+id/imgBorrarDoctor"
             android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
