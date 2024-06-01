@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FEFEFE"
+    android:fitsSystemWindows="true"
     tools:context=".login">
 
     <ScrollView
@@ -113,7 +114,7 @@
                     android:layout_marginBottom="13dp"
                     android:background="@drawable/rounded_edittext"
                     android:ems="10"
-                    android:inputType="text"
+                    android:inputType="textPassword"
                     android:paddingLeft="10dp"
                     app:layout_constraintBottom_toTopOf="@+id/btnIngresar"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -33,11 +33,8 @@ class AdaptadorDoctores(private var Datos: MutableList<tbDoctores>) : RecyclerVi
             builder.setMessage("¿Quieres editar este elemento?")
 
             builder.setPositiveButton("Sí") { dialog, which ->
-            // **Delete the item from the database:**
                 val referencia = FirebaseDatabase.getInstance().getReference("doctores")
                 referencia.child(item.nombre).removeValue()
-
-                // **Remove the item from the adapter:**
                 Datos.removeAt(position)
                 notifyItemRemoved(position)
 
