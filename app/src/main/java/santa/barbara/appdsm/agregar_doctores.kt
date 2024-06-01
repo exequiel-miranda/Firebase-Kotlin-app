@@ -54,8 +54,21 @@ class agregar_doctores : Fragment() {
         }
 
         btnGuardar.setOnClickListener {
-            val nuevoDoctor = tbDoctores("${txtNombre.text}", "${txtEspecialidad.text}", "${txtTelefono.text}")
-            referencia.push().setValue(nuevoDoctor)
+            val referencia = FirebaseDatabase.getInstance().getReference("doctores")
+            val nuevoDoctorRef = referencia.push()
+            val nuevoDoctorId = nuevoDoctorRef.key
+
+            if (nuevoDoctorId != null) {
+                val nuevoDoctor = tbDoctores(nuevoDoctorId, txtNombre.text.toString(), txtEspecialidad.text.toString(), txtTelefono.text.toString())
+
+                nuevoDoctorRef.setValue(nuevoDoctor)
+                    .addOnSuccessListener {
+                       println("Doctor agregado exitosamente")
+                    }
+                    .addOnFailureListener { e ->
+                        println("Error al agregar doctores: $e")
+                    }
+            }
         }
 
         return root

@@ -57,18 +57,18 @@
 
             <ImageView
                 android:id="@+id/imgEditarDoctor"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
                 android:layout_marginBottom="8dp"
-                app:srcCompat="@drawable/ic_editar"
-                android:contentDescription="Editar" />
+                android:contentDescription="Editar"
+                app:srcCompat="@drawable/ic_editar" />
 
             <ImageView
                 android:id="@+id/imgBorrarDoctor"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                app:srcCompat="@drawable/ic_borrar"
-                android:contentDescription="Borrar" />
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:contentDescription="Borrar"
+                app:srcCompat="@drawable/ic_borrar" />
 
         </LinearLayout>
     </LinearLayout>

@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,10 +13,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import santa.barbara.appdsm.doctoresHelper.AdaptadorDoctores
 import santa.barbara.appdsm.doctoresHelper.tbDoctores
 
@@ -57,7 +52,7 @@ class doctores : Fragment() {
         rcvDoctores.layoutManager = LinearLayoutManager(requireContext())
 
         //Preparación de la base de datos
-        var key: String? = null
+       // var key: String? = null
         val database = FirebaseDatabase.getInstance()
         val referencia = database.getReference("doctores")
 
@@ -67,18 +62,27 @@ class doctores : Fragment() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     datos.clear()
                     for(dataSnapshot in snapshot.children){
-                        key = dataSnapshot.key
+                        val id = snapshot.key
+                        val doctor = snapshot.getValue(tbDoctores::class.java)
+                        val myid = dataSnapshot.child("id").value
                         val nombre = dataSnapshot.child("nombre").value
                         val especialidad = dataSnapshot.child("especialidad").value
                         val telefono = dataSnapshot.child("telefono").value
-                        val doctorNuevo = tbDoctores(nombre.toString(), especialidad.toString(), telefono.toString())
-                        datos.add(doctorNuevo)
+                        if (doctor != null && id != null) {
+                            val doctorNuevo = tbDoctores(
+                                myid.toString(),
+                                nombre.toString(),
+                                especialidad.toString(),
+                                telefono.toString()
+                            )
+                            datos.add(doctorNuevo)
+                        }
                     }
                     val adapter = AdaptadorDoctores(datos)
                     rcvDoctores.adapter = adapter
                 }
                 override fun onCancelled(error: DatabaseError) {
-                    println("Error: $error")
+                    println("Error al mostrar doctores: $error")
                 }
 
             })
