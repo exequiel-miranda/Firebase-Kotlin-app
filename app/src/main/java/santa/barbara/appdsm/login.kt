@@ -49,7 +49,6 @@ class login : AppCompatActivity() {
                     password
                 ).addOnCompleteListener {
                     if (it.isSuccessful) {
-
                         val activity_menu = Intent(this, MainActivity::class.java)
                         startActivity(activity_menu)
                     } else {
@@ -105,8 +104,6 @@ class login : AppCompatActivity() {
                     FirebaseAuth.getInstance().signInWithCredential(credenciales)
                         .addOnCompleteListener {
                             if (it.isSuccessful) {
-                                Toast.makeText(this, "Inicio de sesion exitoso", Toast.LENGTH_LONG)
-                                    .show()
                                 val activity_menu = Intent(this, MainActivity::class.java)
                                 startActivity(activity_menu)
                             } else {

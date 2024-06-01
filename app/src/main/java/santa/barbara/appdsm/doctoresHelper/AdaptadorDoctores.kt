@@ -4,15 +4,42 @@ import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.google.firebase.database.ValueEventListener
 import santa.barbara.appdsm.R
 
-class AdaptadorDoctores(private var Datos: MutableList<tbDoctores>) : RecyclerView.Adapter<ViewHolderDoctores>()  {
+class AdaptadorDoctores(private var Datos: MutableList<tbDoctores>) :
+    RecyclerView.Adapter<ViewHolderDoctores>() {
+
+    fun eliminar(position: Int) {
+        val referencia = FirebaseDatabase.getInstance().getReference("doctores")
+        referencia.orderByChild("nombre")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (dataSnapshot in snapshot.children) {
+                        if (dataSnapshot.child("nombre").value == Datos[position].nombre) {
+                            dataSnapshot.ref.removeValue()
+                                .addOnSuccessListener {
+                                    println("yes")
+                                }
+                                .addOnFailureListener { e ->
+                                    println("no")
+                                }
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                  println("no pero on caceled")
+                }
+            })
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderDoctores {
-        val vista = LayoutInflater.from(parent.context).inflate(R.layout.activity_card_doctores, parent, false)
+        val vista = LayoutInflater.from(parent.context)
+            .inflate(R.layout.activity_card_doctores, parent, false)
         return ViewHolderDoctores(vista)
     }
 
@@ -33,11 +60,7 @@ class AdaptadorDoctores(private var Datos: MutableList<tbDoctores>) : RecyclerVi
             builder.setMessage("¿Quieres editar este elemento?")
 
             builder.setPositiveButton("Sí") { dialog, which ->
-                val referencia = FirebaseDatabase.getInstance().getReference("doctores")
-                referencia.child(item.nombre).removeValue()
-                Datos.removeAt(position)
-                notifyItemRemoved(position)
-
+                eliminar(position)
             }
 
             builder.setNegativeButton("No") { dialog, which ->
