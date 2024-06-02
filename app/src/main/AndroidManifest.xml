@@ -10,7 +10,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/logo_new"
         android:label="Santa Bárbara"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo_new"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppDSM"
         tools:targetApi="31">

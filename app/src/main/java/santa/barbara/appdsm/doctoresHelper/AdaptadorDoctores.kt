@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -76,8 +77,12 @@ class AdaptadorDoctores(private var Datos: MutableList<tbDoctores>) :
         // Clic al icono de editar
         holder.imgEditarDoctor.setOnClickListener {
             val context = holder.itemView.context
-            val builder = AlertDialog.Builder(context)
-            builder.setTitle("Editar Doctor")
+            val builder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
+           // builder.setTitle("Editar Doctor")
+            builder.setCustomTitle(TextView(context).apply {
+                setText("Editar Doctor")
+                setTextAppearance(context, R.style.AlertDialogTitle)
+            })
 
             val txtNuevoNombre = EditText(context).apply {
                 setText(item.nombre)
