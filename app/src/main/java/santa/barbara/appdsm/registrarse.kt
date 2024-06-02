@@ -1,5 +1,6 @@
 package santa.barbara.appdsm
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -24,6 +25,7 @@ class registrarse : AppCompatActivity() {
         val txtCorreo = findViewById<EditText>(R.id.txtCorreo)
         val txtPassword = findViewById<EditText>(R.id.txtPassword)
         val btnCrearCuenta = findViewById<Button>(R.id.btnCrearCuenta)
+        val btnRegresarLogin = findViewById<Button>(R.id.btnRegresarLogin)
 
         btnCrearCuenta.setOnClickListener {
             val correo = txtCorreo.text.toString()
@@ -40,6 +42,11 @@ class registrarse : AppCompatActivity() {
                         }
                     }
             }
+        }
+
+        btnRegresarLogin.setOnClickListener {
+            val intent = Intent(this, login::class.java)
+            startActivity(intent)
         }
     }
 }

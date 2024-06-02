@@ -1,13 +1,14 @@
 package santa.barbara.appdsm
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.FirebaseDatabase
 import santa.barbara.appdsm.doctoresHelper.tbDoctores
@@ -59,11 +60,24 @@ class agregar_doctores : Fragment() {
             val nuevoDoctorId = nuevoDoctorRef.key
 
             if (nuevoDoctorId != null) {
-                val nuevoDoctor = tbDoctores(nuevoDoctorId, txtNombre.text.toString(), txtEspecialidad.text.toString(), txtTelefono.text.toString())
+                val nuevoDoctor = tbDoctores(
+                    nuevoDoctorId,
+                    txtNombre.text.toString(),
+                    txtEspecialidad.text.toString(),
+                    txtTelefono.text.toString()
+                )
 
                 nuevoDoctorRef.setValue(nuevoDoctor)
                     .addOnSuccessListener {
-                       println("Doctor agregado exitosamente")
+                        txtNombre.text.clear()
+                        txtEspecialidad.text.clear()
+                        txtTelefono.text.clear()
+                        println("Doctor agregado exitosamente")
+                        Toast.makeText(
+                            requireContext(),
+                            "Doctor agregado exitosamente",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                     .addOnFailureListener { e ->
                         println("Error al agregar doctores: $e")

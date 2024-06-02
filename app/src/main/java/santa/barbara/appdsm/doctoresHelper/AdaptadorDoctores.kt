@@ -1,7 +1,6 @@
 package santa.barbara.appdsm.doctoresHelper
 
 import android.app.AlertDialog
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.EditText
@@ -34,7 +33,7 @@ class AdaptadorDoctores(private var Datos: MutableList<tbDoctores>) :
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                  println("Error: $error")
+                    println("Error: $error")
                 }
             })
     }
@@ -53,10 +52,7 @@ class AdaptadorDoctores(private var Datos: MutableList<tbDoctores>) :
         holder.lblDoctorCard.text = item.nombre
         holder.lblDoctorEspecialidad.text = item.especialidad
         holder.lblDoctorTelefono.text = item.telefono
-        val currentDoctor = Datos[position]
-
-        // Asignar el ID único del doctor al ítem en el RecyclerView
-        holder.itemView.tag = currentDoctor.id
+        holder.itemView.tag = item.id
 
         //Clic al icono de borrar
         holder.imgBorrarDoctor.setOnClickListener {
@@ -84,13 +80,13 @@ class AdaptadorDoctores(private var Datos: MutableList<tbDoctores>) :
             builder.setTitle("Editar Doctor")
 
             val txtNuevoNombre = EditText(context).apply {
-                setText(currentDoctor.nombre)
+                setText(item.nombre)
             }
             val txtNuevaEspecialidad = EditText(context).apply {
-                setText(currentDoctor.especialidad)
+                setText(item.especialidad)
             }
             val txtNuevoTelefono = EditText(context).apply {
-                setText(currentDoctor.telefono)
+                setText(item.telefono)
             }
 
             val layout = LinearLayout(context).apply {
@@ -107,19 +103,18 @@ class AdaptadorDoctores(private var Datos: MutableList<tbDoctores>) :
                 val nuevoTelefono = txtNuevoTelefono.text.toString()
 
                 val database = FirebaseDatabase.getInstance()
-                val reference = database.getReference("doctores").child(currentDoctor.id)
+                val reference = database.getReference("doctores").child(item.id)
 
                 // Actualizo los datos en Firebase
                 reference.child("nombre").setValue(nuevoNombre)
                 reference.child("especialidad").setValue(nuevaEspecialidad)
                 reference.child("telefono").setValue(nuevoTelefono)
                     .addOnSuccessListener {
-                        println("Datos actualizados")
-
-                        currentDoctor.nombre = nuevoNombre
-                        currentDoctor.especialidad = nuevaEspecialidad
-                        currentDoctor.telefono = nuevoTelefono
+                        item.nombre = nuevoNombre
+                        item.especialidad = nuevaEspecialidad
+                        item.telefono = nuevoTelefono
                         notifyDataSetChanged()
+                        println("Datos actualizados")
                     }
                     .addOnFailureListener { e ->
                         println("Error al actualizar doctores: $e")
@@ -131,7 +126,5 @@ class AdaptadorDoctores(private var Datos: MutableList<tbDoctores>) :
             dialog.show()
         }
     }
-
-
-    }
+}
 

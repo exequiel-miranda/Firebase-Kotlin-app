@@ -1,7 +1,6 @@
 package santa.barbara.appdsm
 
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -9,7 +8,6 @@ import android.widget.ScrollView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -60,8 +58,10 @@ class login : AppCompatActivity() {
 
 
         btnInicioSesionGoogle.setOnClickListener {
-            val configuracionGoogle = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
-            requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build()
+            val configuracionGoogle =
+                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id)).requestEmail()
+                    .build()
 
             val ClienteGoogle = GoogleSignIn.getClient(this, configuracionGoogle)
 
@@ -93,10 +93,8 @@ class login : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == InicioSesionGoogle) {
             val tarea = GoogleSignIn.getSignedInAccountFromIntent(data)
-
             try {
                 val cuenta = tarea.getResult(ApiException::class.java)
                 if (cuenta != null) {
@@ -116,7 +114,6 @@ class login : AppCompatActivity() {
                 Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_LONG).show()
 
             }
-
         }
     }
 
