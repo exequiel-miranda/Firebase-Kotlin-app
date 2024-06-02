@@ -119,7 +119,7 @@ class AdaptadorDoctores(private var Datos: MutableList<tbDoctores>) :
                         item.especialidad = nuevaEspecialidad
                         item.telefono = nuevoTelefono
                         notifyDataSetChanged()
-                        println("Datos actualizados")
+                        println("Datos de doctor actualizados")
                     }
                     .addOnFailureListener { e ->
                         println("Error al actualizar doctores: $e")

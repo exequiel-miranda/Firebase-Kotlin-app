@@ -5,6 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import santa.barbara.appdsm.doctoresHelper.AdaptadorDoctores
+import santa.barbara.appdsm.doctoresHelper.tbDoctores
+import santa.barbara.appdsm.pacientesHelper.AdaptadorPacientes
+import santa.barbara.appdsm.pacientesHelper.tbPacientes
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,6 +29,8 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class pacientes : Fragment() {
+
+    val datos = mutableListOf<tbPacientes>()
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -33,8 +47,59 @@ class pacientes : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pacientes, container, false)
+        val root = inflater.inflate(R.layout.fragment_pacientes, container, false)
+
+        val btnAgregarPaciente = root.findViewById<FloatingActionButton>(R.id.btnAgregarPaciente)
+
+
+        btnAgregarPaciente.setOnClickListener {
+            findNavController().navigate(R.id.action_pacientes_to_add_pacientes)
+        }
+
+        val rcvPacientes = root.findViewById<RecyclerView>(R.id.rcvPacientes)
+        rcvPacientes.layoutManager = LinearLayoutManager(requireContext())
+
+        val database = FirebaseDatabase.getInstance()
+        val referencia = database.getReference("pacientes")
+
+        /////Mostrar datos de Doctores/////
+        fun obtenerDatos(): List<tbPacientes> {
+            referencia.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    datos.clear()
+                    for (dataSnapshot in snapshot.children) {
+                        val id = snapshot.key
+                        val paciente = snapshot.getValue(tbPacientes::class.java)
+                        val myid = dataSnapshot.child("id").value
+                        val nombre = dataSnapshot.child("nombre").value
+                        val especie = dataSnapshot.child("especie").value
+                        val raza = dataSnapshot.child("raza").value
+                        val fechaNacimiento = dataSnapshot.child("fechaNacimiento").value
+                        val historialMedico = dataSnapshot.child("historialMedico").value
+                        if (paciente != null && id != null) {
+                            val pacienteNuevo = tbPacientes(
+                                myid.toString(),
+                                nombre.toString(),
+                                especie.toString(),
+                                raza.toString(),
+                                fechaNacimiento.toString(),
+                                historialMedico.toString()
+                            )
+                            datos.add(pacienteNuevo)
+                        }
+                    }
+                    val adapter = AdaptadorPacientes(datos)
+                    rcvPacientes.adapter = adapter
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    println("Error al mostrar doctores: $error")
+                }
+            })
+            return datos
+        }
+        obtenerDatos()
+
+        return root
     }
 
     companion object {

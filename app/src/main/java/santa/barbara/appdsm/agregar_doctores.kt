@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.FirebaseDatabase
 import santa.barbara.appdsm.doctoresHelper.tbDoctores
 
@@ -48,40 +49,53 @@ class agregar_doctores : Fragment() {
         val txtNombre = root.findViewById<EditText>(R.id.txtNombreDoctor)
         val txtEspecialidad = root.findViewById<EditText>(R.id.txtEspecialidadDoctor)
         val txtTelefono = root.findViewById<EditText>(R.id.txtTelefonoDoctor)
-        val btnGuardar = root.findViewById<Button>(R.id.btnCrearDoctor)
+        val btnGuardar = root.findViewById<Button>(R.id.btnCrearCita)
 
         imgAtras.setOnClickListener {
             findNavController().navigateUp()
         }
 
         btnGuardar.setOnClickListener {
-            val referencia = FirebaseDatabase.getInstance().getReference("doctores")
-            val nuevoDoctorRef = referencia.push()
-            val nuevoDoctorId = nuevoDoctorRef.key
 
-            if (nuevoDoctorId != null) {
-                val nuevoDoctor = tbDoctores(
-                    nuevoDoctorId,
-                    txtNombre.text.toString(),
-                    txtEspecialidad.text.toString(),
-                    txtTelefono.text.toString()
-                )
+            if (txtNombre.text.toString().isEmpty() || txtEspecialidad.text.toString()
+                    .isEmpty() || txtTelefono.text.toString().isEmpty()
+            ) {
+                Toast.makeText(
+                    requireContext(),
+                    "Por favor, complete todos los campos.",
+                    Toast.LENGTH_SHORT
+                ).show()
 
-                nuevoDoctorRef.setValue(nuevoDoctor)
-                    .addOnSuccessListener {
-                        txtNombre.text.clear()
-                        txtEspecialidad.text.clear()
-                        txtTelefono.text.clear()
-                        println("Doctor agregado exitosamente")
-                        Toast.makeText(
-                            requireContext(),
-                            "Doctor agregado exitosamente",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                    .addOnFailureListener { e ->
-                        println("Error al agregar doctores: $e")
-                    }
+            } else {
+
+                val referencia = FirebaseDatabase.getInstance().getReference("doctores")
+                val nuevoDoctorRef = referencia.push()
+                val nuevoDoctorId = nuevoDoctorRef.key
+
+                if (nuevoDoctorId != null) {
+                    val nuevoDoctor = tbDoctores(
+                        nuevoDoctorId,
+                        txtNombre.text.toString(),
+                        txtEspecialidad.text.toString(),
+                        txtTelefono.text.toString()
+                    )
+
+                    nuevoDoctorRef.setValue(nuevoDoctor)
+                        .addOnSuccessListener {
+                            txtNombre.text.clear()
+                            txtEspecialidad.text.clear()
+                            txtTelefono.text.clear()
+                            println("Doctor agregado exitosamente")
+                            Toast.makeText(
+                                requireContext(),
+                                "Doctor agregado exitosamente",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        .addOnFailureListener { e ->
+                            println("Error al agregar doctores: $e")
+                        }
+                }
             }
         }
 

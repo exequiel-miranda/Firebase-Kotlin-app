@@ -1,5 +1,6 @@
 package santa.barbara.appdsm.citasHelper
 
 data class tbCitas(
-    val motivo: String
+    var id: String = "",
+    val motivo: String = ""
 )
