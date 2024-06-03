@@ -71,17 +71,25 @@ class pacientes : Fragment() {
                         val id = snapshot.key
                         val paciente = snapshot.getValue(tbPacientes::class.java)
                         val myid = dataSnapshot.child("id").value
-                        val nombre = dataSnapshot.child("nombre").value
+                        val nombre = dataSnapshot.child("nombreMascota").value
+                        val nombreDuenio = dataSnapshot.child("nombreDuenio").value
                         val especie = dataSnapshot.child("especie").value
                         val raza = dataSnapshot.child("raza").value
+                        val peso = dataSnapshot.child("peso").value
+                        val tamanio = dataSnapshot.child("tamanio").value
+                        val sexo = dataSnapshot.child("sexo").value
                         val fechaNacimiento = dataSnapshot.child("fechaNacimiento").value
                         val historialMedico = dataSnapshot.child("historialMedico").value
                         if (paciente != null && id != null) {
                             val pacienteNuevo = tbPacientes(
                                 myid.toString(),
                                 nombre.toString(),
+                                nombreDuenio.toString(),
                                 especie.toString(),
                                 raza.toString(),
+                                peso.toString(),
+                                tamanio.toString(),
+                                sexo.toString(),
                                 fechaNacimiento.toString(),
                                 historialMedico.toString()
                             )

@@ -8,34 +8,19 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.FirebaseDatabase
-import santa.barbara.appdsm.doctoresHelper.tbDoctores
 import santa.barbara.appdsm.pacientesHelper.tbPacientes
 import java.util.Calendar
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [agregar_pacientes.newInstance] factory method to
- * create an instance of this fragment.
- */
 class agregar_pacientes : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -45,18 +30,20 @@ class agregar_pacientes : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_agregar_pacientes, container, false)
 
-        val txtNombrePaciente = root.findViewById<EditText>(R.id.txtNombrePaciente)
+        val txtNombrePaciente = root.findViewById<EditText>(R.id.txtNombreMascota)
+        val txtNombreDuenio = root.findViewById<EditText>(R.id.txtNombreDuenio)
         val txtEspeciePaciente = root.findViewById<EditText>(R.id.txtEspeciePaciente)
         val txtRazaPaciente = root.findViewById<EditText>(R.id.txtRazaPaciente)
+        val txtPeso = root.findViewById<EditText>(R.id.txtPeso)
+        val txtTamanio = root.findViewById<EditText>(R.id.txtTamanio)
+        val spinnerSexo = root.findViewById<Spinner>(R.id.spinnerSexo)
         val txtFechaNacimientoPaciente =
             root.findViewById<EditText>(R.id.txtFechaNacimientoPaciente)
-        val txtHistorialMedicoPaciente = root.findViewById<EditText>(R.id.txtHistorialMedicoPaciente)
+        val txtHistorialMedicoPaciente =
+            root.findViewById<EditText>(R.id.txtHistorialMedicoPaciente)
+
         val imgAtrasPacientes = root.findViewById<ImageView>(R.id.imgAtrasPacientes)
         val btnCrearPaciente = root.findViewById<Button>(R.id.btnCrearPaciente)
-
-        imgAtrasPacientes.setOnClickListener {
-            findNavController().navigateUp()
-        }
 
         //Mostrar el calendario al hacer click en el EditText txtFechaNacimientoPaciente
         txtFechaNacimientoPaciente.setOnClickListener {
@@ -78,8 +65,12 @@ class agregar_pacientes : Fragment() {
 
         btnCrearPaciente.setOnClickListener {
             if (txtNombrePaciente.text.toString().isEmpty() ||
+                txtNombreDuenio.text.toString().isEmpty() ||
                 txtEspeciePaciente.text.toString().isEmpty() ||
                 txtRazaPaciente.text.toString().isEmpty() ||
+                txtPeso.text.toString().isEmpty() ||
+                txtTamanio.text.toString().isEmpty() ||
+                spinnerSexo.selectedItemPosition == 0 ||
                 txtFechaNacimientoPaciente.text.toString().isEmpty() ||
                 txtHistorialMedicoPaciente.text.toString().isEmpty()
             ) {
@@ -94,20 +85,28 @@ class agregar_pacientes : Fragment() {
                 val nuevoPacienteId = nuevoPacienteRef.key
 
                 if (nuevoPacienteId != null) {
-                    val nuevoDoctor = tbPacientes(
+                    val nuevoPaciente = tbPacientes(
                         nuevoPacienteId,
                         txtNombrePaciente.text.toString(),
+                        txtNombreDuenio.text.toString(),
                         txtEspeciePaciente.text.toString(),
                         txtRazaPaciente.text.toString(),
+                        txtPeso.text.toString(),
+                        txtTamanio.text.toString(),
+                        spinnerSexo.selectedItem.toString(),
                         txtFechaNacimientoPaciente.text.toString(),
                         txtHistorialMedicoPaciente.text.toString()
                     )
-
-                    nuevoPacienteRef.setValue(nuevoDoctor)
+                    println("Nuevo paciente: $nuevoPaciente")
+                    nuevoPacienteRef.setValue(nuevoPaciente)
                         .addOnSuccessListener {
                             txtNombrePaciente.text.clear()
+                            txtNombreDuenio.text.clear()
                             txtEspeciePaciente.text.clear()
                             txtRazaPaciente.text.clear()
+                            txtPeso.text.clear()
+                            txtTamanio.text.clear()
+                            spinnerSexo.setSelection(0)
                             txtFechaNacimientoPaciente.text.clear()
                             txtHistorialMedicoPaciente.text.clear()
                             Toast.makeText(
@@ -115,35 +114,20 @@ class agregar_pacientes : Fragment() {
                                 "Paciente agregado exitosamente",
                                 Toast.LENGTH_SHORT
                             ).show()
+                            println("Nuevo paciente: $nuevoPaciente")
                         }
                         .addOnFailureListener { e ->
                             println("Error al agregar pacientes: $e")
+                            println("Nuevo paciente: $nuevoPaciente")
                         }
                 }
             }
         }
 
+        imgAtrasPacientes.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
         return root
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment agregar_pacientes.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            agregar_pacientes().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

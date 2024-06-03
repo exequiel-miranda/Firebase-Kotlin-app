@@ -20,7 +20,7 @@ class AdaptadorPacientes(private var Datos: MutableList<tbPacientes>) :
     override fun onBindViewHolder(holder: ViewHolderPacientes, position: Int) {
         //Asigno los valores a los textView de la card
         val item = Datos[position]
-        holder.lblPacienteNombre.text = item.nombre
+        holder.lblPacienteNombre.text = item.nombreMascota
         holder.lblPacienteEspecie.text = item.especie
         holder.lblRazaPaciente.text = item.raza
         holder.itemView.tag = item.id
@@ -30,7 +30,7 @@ class AdaptadorPacientes(private var Datos: MutableList<tbPacientes>) :
             val intent = Intent(context, detalle_paciente::class.java)
             intent.putExtra(
                 "nombrePaciente",
-                item.nombre
+                item.nombreMascota
             )
             context.startActivity(intent)
         }
