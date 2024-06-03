@@ -29,9 +29,45 @@ class AdaptadorPacientes(private var Datos: MutableList<tbPacientes>) :
             val context = holder.itemView.context
             val intent = Intent(context, detalle_paciente::class.java)
             intent.putExtra(
-                "nombrePaciente",
+                "id",
+                item.id
+            )
+            intent.putExtra(
+                "nombreMascota",
                 item.nombreMascota
             )
+            intent.putExtra(
+                "nombreDuenio",
+                item.nombreDuenio
+            )
+            intent.putExtra(
+                "especie",
+                item.especie
+            )
+            intent.putExtra(
+                "raza",
+                item.raza
+            )
+            intent.putExtra(
+                "peso",
+                item.peso
+            )
+            intent.putExtra(
+                "tamanio",
+                item.tamanio
+            )
+            intent.putExtra(
+                "sexo",
+                item.sexo
+            )
+            intent.putExtra(
+                "fechaNacimiento",
+                item.fechaNacimiento
+            )
+            intent.putExtra(
+                "historialMedico",
+                item.historialMedico)
+
             context.startActivity(intent)
         }
     }
