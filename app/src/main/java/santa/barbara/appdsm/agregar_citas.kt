@@ -5,8 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.database.FirebaseDatabase
+import santa.barbara.appdsm.citasHelper.tbCitas
+import santa.barbara.appdsm.doctoresHelper.tbDoctores
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,30 +45,81 @@ class agregar_citas : Fragment() {
         val root = inflater.inflate(R.layout.fragment_agregar_citas, container, false)
 
         val imgAtras = root.findViewById<ImageView>(R.id.imgAtrasCitas)
-        imgAtras.setOnClickListener {
-            findNavController().navigateUp()
-        }
+        val txtfechaCita = root.findViewById<EditText>(R.id.txtFechaCita)
+        val txtHoraCita = root.findViewById<EditText>(R.id.txtHoraCita)
+        val txtPacienteCita = root.findViewById<EditText>(R.id.txtPacienteCita)
+        val txtDoctorCita = root.findViewById<EditText>(R.id.txtDoctorCita)
+        val txtMotivoCita = root.findViewById<EditText>(R.id.txtMotivoCita)
+        val btnCrearCita = root.findViewById<Button>(R.id.btnCrearCita)
 
-        return root
-    }
+        btnCrearCita.setOnClickListener {
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment agregar_citas.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            agregar_citas().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+            if (txtfechaCita.text.toString().isEmpty() || txtHoraCita.text.toString()
+                    .isEmpty() || txtPacienteCita.text.toString()
+                    .isEmpty() || txtDoctorCita.text.toString()
+                    .isEmpty() || txtMotivoCita.text.toString().isEmpty()
+            ) {
+                Toast.makeText(
+                    requireContext(),
+                    "Por favor, complete todos los campos.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                val referencia = FirebaseDatabase.getInstance().getReference("citas")
+                val nuevaCitaRef = referencia.push()
+                val nuevaCitaId = nuevaCitaRef.key
+
+                if (nuevaCitaId != null) {
+                    val nuevaCita = tbCitas(
+                        nuevaCitaId,
+                        txtfechaCita.text.toString(),
+                        txtHoraCita.text.toString(),
+                        txtPacienteCita.text.toString(),
+                        txtDoctorCita.text.toString(),
+                        txtMotivoCita.text.toString()
+                    )
+                    nuevaCitaRef.setValue(nuevaCita).addOnSuccessListener {
+                            txtfechaCita.text.clear()
+                            txtHoraCita.text.clear()
+                            txtPacienteCita.text.clear()
+                            txtDoctorCita.text.clear()
+                            txtMotivoCita.text.clear()
+                            Toast.makeText(
+                                requireContext(),
+                                "Cita agendada exitosamente",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        .addOnFailureListener { e ->
+                            println("Error al agregar citas: $e")
+                        }
                 }
             }
+        }
+            imgAtras.setOnClickListener {
+                findNavController().navigateUp()
+            }
+
+            return root
+        }
+
+        companion object {
+            /**
+             * Use this factory method to create a new instance of
+             * this fragment using the provided parameters.
+             *
+             * @param param1 Parameter 1.
+             * @param param2 Parameter 2.
+             * @return A new instance of fragment agregar_citas.
+             */
+            // TODO: Rename and change types and number of parameters
+            @JvmStatic
+            fun newInstance(param1: String, param2: String) =
+                agregar_citas().apply {
+                    arguments = Bundle().apply {
+                        putString(ARG_PARAM1, param1)
+                        putString(ARG_PARAM2, param2)
+                    }
+                }
+        }
     }
-}

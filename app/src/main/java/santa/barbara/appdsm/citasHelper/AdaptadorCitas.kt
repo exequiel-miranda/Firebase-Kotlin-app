@@ -16,6 +16,8 @@ class AdaptadorCitas(private var Datos: List<tbCitas>) : RecyclerView.Adapter<Vi
 
     override fun onBindViewHolder(holder: ViewHolderCitas, position: Int) {
         val item = Datos[position]
-        holder.lblCitaCard.text = item.motivo
+        holder.lblPacienteCita.text = item.paciente
+        holder.lblFechaCita.text = item.fecha
+        holder.lblHoraCita.text = item.hora
     }
 }
