@@ -269,7 +269,7 @@
     <TextView
         android:id="@+id/lblPeso"
         android:layout_width="61dp"
-        android:layout_height="16dp"
+        android:layout_height="21dp"
         android:layout_marginTop="43dp"
         android:text="Peso"
         android:textAlignment="center"
