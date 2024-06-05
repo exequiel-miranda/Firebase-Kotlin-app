@@ -1,5 +1,8 @@
 package santa.barbara.appdsm
 
+import android.annotation.SuppressLint
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,11 +12,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.TimePicker
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.FirebaseDatabase
 import santa.barbara.appdsm.citasHelper.tbCitas
 import santa.barbara.appdsm.doctoresHelper.tbDoctores
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,6 +36,28 @@ class agregar_citas : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    fun showTimePickerDialog(textView: EditText) {
+        val cal = Calendar.getInstance()
+        val hour = cal.get(Calendar.HOUR_OF_DAY)
+        val minute = cal.get(Calendar.MINUTE)
+
+        val timePickerDialog = TimePickerDialog(
+            requireContext(),
+            { _: TimePicker, hourOfDay: Int, minute: Int ->
+                cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                cal.set(Calendar.MINUTE, minute)
+                val format = SimpleDateFormat("hh:mm a", Locale.getDefault())
+                val formattedTime = format.format(cal.time)
+                textView.setText(formattedTime)
+            },
+            hour,
+            minute,
+            false
+        )
+
+        timePickerDialog.show()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +80,31 @@ class agregar_citas : Fragment() {
         val txtDoctorCita = root.findViewById<EditText>(R.id.txtDoctorCita)
         val txtMotivoCita = root.findViewById<EditText>(R.id.txtMotivoCita)
         val btnCrearCita = root.findViewById<Button>(R.id.btnCrearCita)
+
+
+        //Mostrar el calendario al hacer click en el EditText txtFechaNacimientoPaciente
+        txtfechaCita.setOnClickListener {
+            val calendario = Calendar.getInstance()
+            val anio = calendario.get(Calendar.YEAR)
+            val mes = calendario.get(Calendar.MONTH)
+            val dia = calendario.get(Calendar.DAY_OF_MONTH)
+            val datePickerDialog = DatePickerDialog(
+                requireContext(),
+                { view, anioSeleccionado, mesSeleccionado, diaSeleccionado ->
+                    val fechaSeleccionada =
+                        "$diaSeleccionado/${mesSeleccionado + 1}/$anioSeleccionado"
+                    txtfechaCita.setText(fechaSeleccionada)
+                },
+                anio, mes, dia
+            )
+            datePickerDialog.show()
+        }
+
+            txtHoraCita.setOnClickListener {
+                showTimePickerDialog(txtHoraCita)
+            }
+
+
 
         btnCrearCita.setOnClickListener {
 
