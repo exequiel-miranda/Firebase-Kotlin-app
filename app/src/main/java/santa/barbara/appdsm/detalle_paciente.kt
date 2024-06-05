@@ -1,12 +1,18 @@
 package santa.barbara.appdsm
 
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.database.FirebaseDatabase
 
 class detalle_paciente : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,8 +34,11 @@ class detalle_paciente : AppCompatActivity() {
         val lblEdad = findViewById<TextView>(R.id.lblEdad)
         val lblSexo = findViewById<TextView>(R.id.lblGenero)
         val lblHistorialMedico = findViewById<TextView>(R.id.lblHistorialMedico)
+        val btnBorrarPaciente = findViewById<Button>(R.id.btnBorrarPaciente)
+        val btnEditarPaciente = findViewById<Button>(R.id.btnEditarPaciente)
 
-        val idRecibido = intent.getStringExtra("id")
+
+        val idRecibido = intent.getStringExtra("id")!!
         val nombreMascotaRecibido = intent.getStringExtra("nombreMascota")
         val nombreDuenioRecibido = intent.getStringExtra("nombreDuenio")
         val especieRecibida = intent.getStringExtra("especie")
@@ -49,6 +58,27 @@ class detalle_paciente : AppCompatActivity() {
         lblSexo.text = sexoRecibido
         lblEdad.text = fechaNacimientoRecibido
         lblHistorialMedico.text = historialMedicoRecibido
+
+        btnBorrarPaciente.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Confirmación")
+            builder.setMessage("¿Quieres eliminar este paciente?")
+
+            builder.setPositiveButton("Sí") { dialog, which ->
+            Toast.makeText(this, "Paciente eliminado", Toast.LENGTH_SHORT).show()
+                val database = FirebaseDatabase.getInstance()
+                val reference = database.getReference("pacientes").child(idRecibido)
+                reference.removeValue()
+                finish()
+            }
+
+            builder.setNegativeButton("No") { dialog, which ->
+                dialog.dismiss()
+            }
+
+            val dialog = builder.create()
+            dialog.show()
+        }
 
         imgAtrasDetallePaciente.setOnClickListener {
             finish()

@@ -342,7 +342,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnEditarPaciente"
         android:layout_width="117dp"
         android:layout_height="37dp"
         android:layout_marginStart="28dp"
@@ -356,7 +356,7 @@
         app:layout_constraintStart_toStartOf="@+id/guideline3" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnBorrarPaciente"
         android:layout_width="117dp"
         android:layout_height="37dp"
         android:layout_marginBottom="12dp"
@@ -368,6 +368,6 @@
         app:layout_constraintBottom_toTopOf="@+id/btnAgendarProcimaCita"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintHorizontal_bias="0.67"
-        app:layout_constraintStart_toEndOf="@+id/button" />
+        app:layout_constraintStart_toEndOf="@+id/btnEditarPaciente" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
