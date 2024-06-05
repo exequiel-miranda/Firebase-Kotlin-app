@@ -1,5 +1,6 @@
 package santa.barbara.appdsm
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -36,6 +37,7 @@ class detalle_paciente : AppCompatActivity() {
         val lblHistorialMedico = findViewById<TextView>(R.id.lblHistorialMedico)
         val btnBorrarPaciente = findViewById<Button>(R.id.btnBorrarPaciente)
         val btnEditarPaciente = findViewById<Button>(R.id.btnEditarPaciente)
+        val btnAgendarProcimaCita = findViewById<Button>(R.id.btnAgendarProcimaCita)
 
 
         val idRecibido = intent.getStringExtra("id")!!
@@ -180,10 +182,16 @@ class detalle_paciente : AppCompatActivity() {
             dialog.show()
         }
 
+        btnAgendarProcimaCita.setOnClickListener {
+
+        }
+
 
         imgAtrasDetallePaciente.setOnClickListener {
             finish()
         }
+
+
 
     }
 }
