@@ -80,6 +80,107 @@ class detalle_paciente : AppCompatActivity() {
             dialog.show()
         }
 
+        btnEditarPaciente.setOnClickListener {
+            val builder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+            builder.setCustomTitle(TextView(this).apply {
+                setText("Editar datos del paciente")
+                setTextAppearance(context, R.style.AlertDialogTitle)
+            })
+
+            val nombrePacienteActual = lblNombreMascota.text.toString()
+            val especieActual = lblEspecie.text.toString()
+            val razaActual = lblRaza.text.toString()
+            val pesoActual = lblPeso.text.toString()
+            val tamanioActual = lblTamanio.text.toString()
+            val sexoActual = lblSexo.text.toString()
+            val fechaNacimientoActual = lblEdad.text.toString()
+            val historialMedicoActual = lblHistorialMedico.text.toString()
+
+            val txtNuevoNombrePaciente = EditText(this).apply {
+                setText(nombrePacienteActual)
+            }
+            val txtNuevaEspecie = EditText(this).apply {
+                setText(especieActual)
+            }
+            val txtNuevaRaza = EditText(this).apply {
+                setText(razaActual)
+            }
+            val txtNuevoPeso = EditText(this).apply {
+                setText(pesoActual)
+            }
+            val txtNuevoTamanio = EditText(this).apply {
+                setText(tamanioActual)
+            }
+            val txtNuevoSexo = EditText(this).apply {
+                setText(sexoActual)
+                }
+            val txtNuevaFechaNacimiento = EditText(this).apply {
+                setText(fechaNacimientoActual)
+            }
+            val txtNuevoHistorialMedico = EditText(this).apply {
+                setText(historialMedicoActual)
+            }
+
+            val layout = LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL
+                addView(txtNuevoNombrePaciente)
+                addView(txtNuevaEspecie)
+                addView(txtNuevaRaza)
+                addView(txtNuevoPeso)
+                addView(txtNuevoTamanio)
+                addView(txtNuevoSexo)
+                addView(txtNuevaFechaNacimiento)
+                addView(txtNuevoHistorialMedico)
+            }
+            builder.setView(layout)
+
+            builder.setPositiveButton("Guardar") { dialog, which ->
+                val nuevoNombrePaciente = txtNuevoNombrePaciente.text.toString()
+                val nuevaEspecie = txtNuevaEspecie.text.toString()
+                val nuevaRaza = txtNuevaRaza.text.toString()
+                val nuevoPeso = txtNuevoPeso.text.toString()
+                val nuevoTamanio = txtNuevoTamanio.text.toString()
+                val nuevoSexo = txtNuevoSexo.text.toString()
+                val nuevaFechaNacimiento = txtNuevaFechaNacimiento.text.toString()
+                val nuevoHistorialMedico = txtNuevoHistorialMedico.text.toString()
+
+
+                val database = FirebaseDatabase.getInstance()
+                val reference = database.getReference("pacientes").child(idRecibido)
+
+                // Actualizo los datos en Firebase
+                reference.child("nombreMascota").setValue(nuevoNombrePaciente)
+                reference.child("especie").setValue(nuevaEspecie)
+                reference.child("raza").setValue(nuevaRaza)
+                reference.child("peso").setValue(nuevoPeso)
+                reference.child("tamanio").setValue(nuevoTamanio)
+                reference.child("sexo").setValue(nuevoSexo)
+                reference.child("fechaNacimiento").setValue(nuevaFechaNacimiento)
+                reference.child("historialMedico").setValue(nuevoHistorialMedico)
+
+                    .addOnSuccessListener {
+                    Toast.makeText(this, "Paciente actualizado", Toast.LENGTH_SHORT).show()
+                        lblNombreMascota.text = nuevoNombrePaciente
+                        lblEspecie.text = nuevaEspecie
+                        lblRaza.text = nuevaRaza
+                        lblPeso.text = nuevoPeso
+                        lblTamanio.text = nuevoTamanio
+                        lblSexo.text = nuevoSexo
+                        lblEdad.text = nuevaFechaNacimiento
+                        lblHistorialMedico.text = nuevoHistorialMedico
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Error al actualizar el paciente: ${e.message}", Toast.LENGTH_SHORT).show()
+                        println("Error al actualizar el paciente: ${e.message}")
+                    }
+            }
+            builder.setNegativeButton("Cancelar", null)
+
+            val dialog = builder.create()
+            dialog.show()
+        }
+
+
         imgAtrasDetallePaciente.setOnClickListener {
             finish()
         }
