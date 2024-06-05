@@ -183,7 +183,9 @@ class detalle_paciente : AppCompatActivity() {
         }
 
         btnAgendarProcimaCita.setOnClickListener {
-
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("ir_a_agregar_citas", true)
+            startActivity(intent)
         }
 
 
