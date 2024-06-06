@@ -41,13 +41,14 @@ class agregar_pacientes : Fragment() {
     private lateinit var imgFotoPaciente: ImageView
     private val REQUEST_IMAGE_CAPTURE = 1
     private val REQUEST_CAMERA_PERMISSION = 100
-
+    val referencia = FirebaseDatabase.getInstance().getReference("pacientes")
+    val nuevoPacienteRef = referencia.push()
+    val nuevoPacienteId = nuevoPacienteRef.key
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
         }
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -111,9 +112,7 @@ class agregar_pacientes : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                val referencia = FirebaseDatabase.getInstance().getReference("pacientes")
-                val nuevoPacienteRef = referencia.push()
-                val nuevoPacienteId = nuevoPacienteRef.key
+
 
                 if (nuevoPacienteId != null) {
                     val nuevoPaciente = tbPacientes(
@@ -162,8 +161,6 @@ class agregar_pacientes : Fragment() {
         return root
     }
 
-
-
     private fun abrirCamara() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         try {
@@ -193,7 +190,7 @@ class agregar_pacientes : Fragment() {
 
     private fun subirimagenFirebase(bitmap: Bitmap) {
         val storageRef = Firebase.storage.reference
-        val imageRef = storageRef.child("images/${UUID.randomUUID()}.jpg")
+        val imageRef = storageRef.child("images/${nuevoPacienteId}.jpg")
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data = baos.toByteArray()

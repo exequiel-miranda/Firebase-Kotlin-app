@@ -13,9 +13,15 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 class detalle_paciente : AppCompatActivity() {
+    private lateinit var storageReference: StorageReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -38,6 +44,8 @@ class detalle_paciente : AppCompatActivity() {
         val btnBorrarPaciente = findViewById<Button>(R.id.btnBorrarPaciente)
         val btnEditarPaciente = findViewById<Button>(R.id.btnEditarPaciente)
         val btnAgendarProcimaCita = findViewById<Button>(R.id.btnAgendarProcimaCita)
+        val imgFotoMascota = findViewById<ImageView>(R.id.imgFotoMascota)
+
 
 
         val idRecibido = intent.getStringExtra("id")!!
@@ -193,7 +201,17 @@ class detalle_paciente : AppCompatActivity() {
             finish()
         }
 
-
-
+        storageReference = FirebaseStorage.getInstance().reference.child("images/$idRecibido.jpg")
+        loadPatientImage(imgFotoMascota)
+    }
+    private fun loadPatientImage(imageView: ImageView) {
+        storageReference.downloadUrl.addOnSuccessListener { uri ->
+            // Usa Glide para cargar la imagen en el ImageView
+            Glide.with(this@detalle_paciente)
+                .load(uri)
+                .into(imageView)
+        }.addOnFailureListener {
+            // Manejo de errores
+        }
     }
 }
